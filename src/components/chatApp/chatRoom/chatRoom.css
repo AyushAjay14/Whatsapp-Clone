@@ -1,0 +1,14 @@
+.chat-section__wrapper {
+  flex: 1 1 70%;
+  position: relative;
+  background-color: #0b141a;
+  display: flex;
+  flex-direction: column;
+}
+.background-image {
+  position: absolute;
+  inset: 0px;
+  opacity: 0.05;
+  z-index: 1;
+  background: url("/src/assets/images/bg-chat-room.png"), rgb(228, 220, 212);
+}

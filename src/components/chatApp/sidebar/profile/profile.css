@@ -1,0 +1,62 @@
+.profile-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  padding: 10px;
+  min-height: 60px;
+  background: #111b21;
+}
+.profile-options {
+  color: rgb(174, 186, 193);
+  margin-right: 20px;
+  display: flex;
+  align-items: center;
+}
+.profile-image img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+.profile-options svg {
+  height: 24px;
+  width: 24px;
+  margin-left: 25px;
+}
+.description-box__notification {
+  min-height: 85px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  background: #182229;
+  position: relative;
+}
+.no-wifi-icon__container {
+  color: #53bdeb;
+  margin-right: 10px;
+}
+.description-box {
+  flex: 1 1 0%;
+}
+.description-box__text {
+  font-size: 1rem;
+  margin-bottom: 5px;
+  color: rgba(241, 241, 242, 0.88);
+}
+.extra-description {
+  font-size: 0.85rem;
+  color: rgb(166, 168, 170);
+  line-height: 17px;
+}
+.extra-description a {
+  text-decoration: underline;
+}
+.closeIcon {
+  position: absolute;
+  top: 5px;
+  right: 15px;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  color: rgba(241, 241, 242, 0.92);
+}
