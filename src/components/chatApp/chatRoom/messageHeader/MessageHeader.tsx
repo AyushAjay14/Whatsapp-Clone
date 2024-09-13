@@ -1,4 +1,4 @@
-import { useSelectedUser } from "@/context/context";
+import { useSelectedUser } from "@/context/";
 import "./messageHeader.css";
 
 function MessageHeader() {

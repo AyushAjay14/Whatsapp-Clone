@@ -1,12 +1,12 @@
-import { messages } from "@/types/types";
+import { Messages } from "@/types/";
 import "./messageList.css";
-import { useSelectedUser } from "@/context/context";
+import { useSelectedUser } from "@/context/";
 
 function MessageList({
   messages,
   setMessages,
 }: {
-  messages: messages;
+  messages: Messages;
   setMessages: Function;
 }) {
   const selectedUser = useSelectedUser();

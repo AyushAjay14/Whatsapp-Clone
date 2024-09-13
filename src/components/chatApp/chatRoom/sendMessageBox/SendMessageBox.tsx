@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { AttachmentIcon, SendButtonIcon } from "@/assets/icons/Icons";
 import "./sendMessageBox.css";
-import { messages } from "@/types/types";
-import { useSelectedUser } from "@/context/context";
+import { Messages } from "@/types/";
+import { useSelectedUser } from "@/context/";
 
 function SendMessageBox({
   messages,
   setMessages,
 }: {
-  messages: messages;
+  messages: Messages;
   setMessages: Function;
 }) {
   const [inputMessage, setInputMessage] = useState("");

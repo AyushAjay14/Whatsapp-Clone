@@ -1,6 +1,6 @@
-import { User } from "@/types/user";
+import { User } from "@/types/";
 
-export const CONNECTIONS: Exclude<User, null>[] = [
+export const CONNECTIONS: User[] = [
   {
     id: "user_id_1",
     name: "User 1",
