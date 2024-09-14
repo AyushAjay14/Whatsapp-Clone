@@ -24,7 +24,7 @@ function ChatApp() {
       <SelectedUserUtilsContext.Provider value={selectedUserUtils}>
         <div className="chat-app__container">
           <SideBar />
-          {selectedUser ? <ChatRoom /> : <UnselectedChat />}
+          {selectedUser ? <ChatRoom key={selectedUser.id}/> : <UnselectedChat />}
         </div>
       </SelectedUserUtilsContext.Provider>
     </SelectedUserContext.Provider>

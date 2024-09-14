@@ -1,4 +1,4 @@
-import "./styles.css";
+import "./contacts.css";
 import { SelectedUserUtilsContext } from "@/context/";
 import { useContext } from "react";
 import ContactList from "./ContactList";
