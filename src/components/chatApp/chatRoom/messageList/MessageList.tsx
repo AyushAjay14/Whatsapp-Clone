@@ -17,10 +17,10 @@ function MessageList() {
     }
   }, [messages]);
 
-  function handleDeleteMessage(event: any) {
+  function handleDeleteMessage(event: React.MouseEvent<HTMLButtonElement>) {
     if (selectedUser) {
       const currentUserMessageList = messages[selectedUser.id].filter(
-        (message) => message.timeStamp !== event.target.id
+        (message) => message.timeStamp !== event.currentTarget.id
       );
       const newMessage = {
         ...messages,
@@ -30,9 +30,9 @@ function MessageList() {
       updateMessagesInLocalStorage(newMessage);
     }
   }
-  function handleEditMessage(event: any) {
+  function handleEditMessage(event: React.MouseEvent<HTMLButtonElement>) {
     setShowEditDialog(true);
-    setEditMessageTimestamp(event.target.id);
+    setEditMessageTimestamp(event.currentTarget.id);
   }
   /**
    * REVIEW_COMMENTS: self closing tag if there is nothing in between. JSX syntax, this is not HTML syntax.

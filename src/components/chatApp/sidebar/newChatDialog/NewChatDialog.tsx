@@ -4,7 +4,7 @@ import { ConnectionsUtils } from "@/context";
 import { PORFILE_IMG } from "@/constant/";
 import { updateConnectionsInLocalStorage } from "@/utils";
 
-function NewChatDialog({ setShowDialog }: { setShowDialog: any }) {
+function NewChatDialog({ setShowDialog }: { setShowDialog: (showDialog: boolean) => void }) {
   const [name, setNewName] = useState("");
   const { connections, setConnections } = ConnectionsUtils();
   function handleAddNewConnection() {
