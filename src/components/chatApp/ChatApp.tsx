@@ -1,33 +1,42 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import "./chatApp.css";
 import SideBar from "./sidebar/SideBar";
 import UnselectedChat from "./unselectedChatSection/UnselectedChat";
 import ChatRoom from "./chatRoom/ChatRoom";
 import { User } from "@/types/";
-import {
-  SelectedUserContext,
-  SelectedUserUtilsContext,
-} from "@/context/";
+import { MessagesUtilContext, SelectedUserUtilsContext } from "@/context/";
 
 function ChatApp() {
   // REVIEW_COMMENTS: implemented a SelectedUserContext here via React.createContext, avoid props drilling
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [messages, setMessages] = useState({});
 
-  const selectedUserUtils = useMemo(() => setSelectedUser, [setSelectedUser]);
+  const selectedUserUtils = {
+    selectedUser,
+    setSelectedUser,
+  };
+  const messagesUtils = {
+    messages,
+    setMessages,
+  };
   /**
    * REVIEW_COMMENTS:
    * BEM naming convention for CSS selectors.
    * good naming convention - chat-app__container
    */
   return (
-    <SelectedUserContext.Provider value={selectedUser}>
-      <SelectedUserUtilsContext.Provider value={selectedUserUtils}>
+    <SelectedUserUtilsContext.Provider value={selectedUserUtils}>
+      <MessagesUtilContext.Provider value={messagesUtils}>
         <div className="chat-app__container">
           <SideBar />
-          {selectedUser ? <ChatRoom key={selectedUser.id}/> : <UnselectedChat />}
+          {selectedUser ? (
+            <ChatRoom key={selectedUser.id} />
+          ) : (
+            <UnselectedChat />
+          )}
         </div>
-      </SelectedUserUtilsContext.Provider>
-    </SelectedUserContext.Provider>
+      </MessagesUtilContext.Provider>
+    </SelectedUserUtilsContext.Provider>
   );
 }
 

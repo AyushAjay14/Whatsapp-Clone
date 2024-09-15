@@ -9,7 +9,6 @@
   position: relative;
   display: flex;
   color: #cccbcb;
-  -webkit-box-align: center;
   align-items: center;
 }
 .attachmentIcon {
@@ -24,9 +23,6 @@
   flex: 1 1 0%;
   height: 100%;
   margin-left: 7px;
-}
-input[type="text"]:focus {
-  outline: none;
 }
 .send-button {
   background: none;

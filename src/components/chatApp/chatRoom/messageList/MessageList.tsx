@@ -1,15 +1,22 @@
-import { Messages } from "@/types/";
 import "./messageList.css";
-import { useSelectedUser } from "@/context/";
+import { MessagesUtils, SelectedUserUtils } from "@/context/";
+import { updateMessagesInLocalStorage } from "@/utils";
+import { useEffect, useRef, useState } from "react";
+import EditMessageDialog from "../editMessageDialog/EditMessageDialog";
 
-function MessageList({
-  messages,
-  setMessages,
-}: {
-  messages: Messages;
-  setMessages: Function;
-}) {
-  const selectedUser = useSelectedUser();
+function MessageList() {
+  const { selectedUser } = SelectedUserUtils();
+  const { messages, setMessages } = MessagesUtils();
+  const [showEditDialog, setShowEditDialog] = useState(false);
+  const [editMessageTimestamp, setEditMessageTimestamp] = useState("");
+  const lastMessageRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (lastMessageRef.current) {
+      lastMessageRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
+
   function handleDeleteMessage(event: any) {
     if (selectedUser) {
       const currentUserMessageList = messages[selectedUser.id].filter(
@@ -20,9 +27,13 @@ function MessageList({
         [selectedUser.id]: currentUserMessageList,
       };
       setMessages(newMessage);
+      updateMessagesInLocalStorage(newMessage);
     }
   }
-
+  function handleEditMessage(event: any) {
+    setShowEditDialog(true);
+    setEditMessageTimestamp(event.target.id);
+  }
   /**
    * REVIEW_COMMENTS: self closing tag if there is nothing in between. JSX syntax, this is not HTML syntax.
    */
@@ -33,16 +44,39 @@ function MessageList({
         Messages are end-to-end encrypted. No one outside of this chat, not even
         WhatsApp, can read or listen to them. Click to learn more.
       </p>
+      {showEditDialog && (
+        <EditMessageDialog
+          editMessageTimestamp={editMessageTimestamp}
+          setShowEditDialog={setShowEditDialog}
+        />
+      )}
       {selectedUser &&
-        messages[selectedUser.id]?.map((message: any) => (
-          <div key={message.timeStamp} className="message__container">
-            <button
-              className="delete-button"
-              id={message.timeStamp}
-              onClick={handleDeleteMessage}
-            >
-              Delete
-            </button>
+        messages[selectedUser.id]?.map((message, index) => (
+          <div
+            key={message.timeStamp}
+            ref={
+              index === messages[selectedUser.id].length - 1
+                ? lastMessageRef
+                : null
+            }
+            className="message__container"
+          >
+            <div className="button-group">
+              <button
+                className="button"
+                id={message.timeStamp}
+                onClick={handleDeleteMessage}
+              >
+                Delete
+              </button>
+              <button
+                className="button"
+                id={message.timeStamp}
+                onClick={handleEditMessage}
+              >
+                Edit
+              </button>
+            </div>
             <div className="message">
               <p>{message.text}</p>
               <span className="timestamp-gap" />

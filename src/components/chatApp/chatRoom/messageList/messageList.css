@@ -23,8 +23,10 @@
   margin-bottom: 12px;
   position: relative;
 }
-
-.delete-button {
+.button-group {
+  align-self: flex-end;
+}
+.button {
   align-self: flex-end;
   background-color: #dc3546;
   color: white;
@@ -35,7 +37,7 @@
   transition: opacity 0.5s linear;
   margin-right: 2px;
 }
-.message__container:hover .delete-button {
+.message__container:hover .button {
   opacity: 1;
 }
 .message {
@@ -46,11 +48,11 @@
   font-size: 0.85rem;
   color: rgba(241, 241, 242, 0.88);
   width: fit-content;
-  max-width: 95%;
+  max-width: 50%;
   line-height: 22px;
   border-radius: 5px;
   position: relative;
-  white-space: pre-line;
+  overflow-wrap: anywhere;
   display: flex;
 }
 .timestamp-gap {

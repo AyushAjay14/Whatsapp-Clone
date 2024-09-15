@@ -1,14 +1,31 @@
 import { createContext, useContext } from "react";
-import { User } from "@/types/";
+import { ConnectionsContextType } from "@/types/connection";
+import { MessagesContextType } from "@/types/message";
+import { SelectedUserContextType } from "@/types/user";
 
-export const SelectedUserContext = createContext<User | null>(null);
+export const SelectedUserUtilsContext = createContext<SelectedUserContextType>({
+  selectedUser: null,
+  setSelectedUser: () => {},
+});
 
-export const SelectedUserUtilsContext = createContext<(user: User | null) => void>(() => {});
+export const ConnectionsUtilsContext = createContext<ConnectionsContextType>({
+  connections: [],
+  setConnections: () => {},
+});
 
-export function useSelectedUser() {
-  return useContext(SelectedUserContext);
-}
+export const MessagesUtilContext = createContext<MessagesContextType>({
+  messages: {},
+  setMessages: () => {},
+});
 
 export function SelectedUserUtils() {
   return useContext(SelectedUserUtilsContext);
+}
+
+export function ConnectionsUtils() {
+  return useContext(ConnectionsUtilsContext);
+}
+
+export function MessagesUtils() {
+  return useContext(MessagesUtilContext);
 }
