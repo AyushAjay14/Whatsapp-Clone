@@ -3,6 +3,7 @@ import { ConnectionsUtils, SelectedUserUtils } from "@/context/";
 import ContactList from "./ContactList";
 
 function Contacts() {
+  
   const { setSelectedUser } = SelectedUserUtils();
   const { connections } = ConnectionsUtils();
   // function Contacts({ setselectedUser }: { setselectedUser: Function }) {

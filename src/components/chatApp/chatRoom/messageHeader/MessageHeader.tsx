@@ -2,7 +2,9 @@ import { SelectedUserUtils } from "@/context/";
 import "./messageHeader.css";
 
 function MessageHeader() {
+  
   const { selectedUser } = SelectedUserUtils();
+
   return (
     <div className="header-container">
       <div className="profile-image">

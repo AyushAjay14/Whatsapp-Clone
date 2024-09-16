@@ -2,7 +2,9 @@ import { DeleteDialogUtils } from "@/context";
 import "./deleteDialog.css";
 
 function DeleteDialog() {
+
   const { setShowDeleteDialog, setConfirmDelete } = DeleteDialogUtils();
+  
   return (
     <div className="dialog__container">
       <h2 className="dialog__heading">Are you sure you want to Delete?</h2>

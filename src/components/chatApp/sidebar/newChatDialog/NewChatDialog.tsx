@@ -5,8 +5,10 @@ import { PORFILE_IMG } from "@/constant/";
 import { updateConnectionsInLocalStorage } from "@/utils";
 
 function NewChatDialog({ setShowDialog }: { setShowDialog: (showDialog: boolean) => void }) {
+
   const [newName, setNewName] = useState("");
   const { connections, setConnections } = ConnectionsUtils();
+  
   function handleAddNewConnection() {
     let id = 0;
     if (connections && connections.length) {
@@ -18,6 +20,7 @@ function NewChatDialog({ setShowDialog }: { setShowDialog: (showDialog: boolean)
     setNewName("");
     setShowDialog(false);
   }
+
   return (
     <div className="new-chat-dialog__container">
       <input type="text" placeholder="Type the name" className="new-chat-dialog__input" onChange={(e) => setNewName(e.target.value)} />

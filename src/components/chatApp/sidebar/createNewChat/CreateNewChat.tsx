@@ -3,10 +3,13 @@ import NewChatDialog from "../newChatDialog/NewChatDialog";
 import "./createNewChat.css";
 
 function CreateNewChat() {
+
   const [showDialog, setShowDialog] = useState(false);
+  
   function handleStartnewChat() {
     setShowDialog(true);
   }
+
   return (
     <>
       <div className="new-chat__container">

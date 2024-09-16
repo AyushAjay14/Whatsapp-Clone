@@ -4,12 +4,7 @@ import SideBar from "./sidebar/SideBar";
 import UnselectedChat from "./unselectedChatSection/UnselectedChat";
 import ChatRoom from "./chatRoom/ChatRoom";
 import { User } from "@/types/";
-import {
-  CompactModeUtilContext,
-  DeleteDialogUtilContext,
-  MessagesUtilContext,
-  SelectedUserUtilsContext,
-} from "@/context/";
+import { CompactModeUtilContext, DeleteDialogUtilContext, MessagesUtilContext, SelectedUserUtilsContext } from "@/context/";
 import DeleteDialog from "./deleteDialog/DeleteDialog";
 
 function ChatApp() {
@@ -51,11 +46,7 @@ function ChatApp() {
             <div className="chat-app__container">
               <SideBar />
               {showDeleteDialog && <DeleteDialog />}
-              {selectedUser ? (
-                <ChatRoom key={selectedUser.id} />
-              ) : (
-                <UnselectedChat />
-              )}
+              {selectedUser ? <ChatRoom key={selectedUser.id} /> : <UnselectedChat />}
             </div>
           </CompactModeUtilContext.Provider>
         </DeleteDialogUtilContext.Provider>

@@ -5,6 +5,7 @@ import { MessagesUtils, SelectedUserUtils } from "@/context/";
 import { updateMessagesInLocalStorage } from "@/utils";
 
 function SendMessageBox() {
+  
   const [inputMessage, setInputMessage] = useState("");
   const { selectedUser } = SelectedUserUtils();
   const { messages, setMessages } = MessagesUtils();

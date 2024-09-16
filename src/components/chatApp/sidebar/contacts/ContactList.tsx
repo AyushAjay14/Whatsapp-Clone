@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { updateConnectionsInLocalStorage, updateMessagesInLocalStorage } from "@/utils";
 
 function ContactList({ handleClickOnUserContact }: { handleClickOnUserContact: (event: React.MouseEvent<HTMLElement>) => void }) {
+  
   const { selectedUser, setSelectedUser } = SelectedUserUtils();
   const { connections, setConnections } = ConnectionsUtils();
   const { messages, setMessages } = MessagesUtils();

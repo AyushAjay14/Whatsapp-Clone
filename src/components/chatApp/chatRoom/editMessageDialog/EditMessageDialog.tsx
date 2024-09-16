@@ -7,6 +7,7 @@ import { updateMessagesInLocalStorage } from "@/utils";
 // import { updateConnectionsInLocalStorage } from "@/utils";
 
 function EditMessageDialog({ editMessageTimestamp, setShowEditDialog }: { editMessageTimestamp: string; setShowEditDialog: (showEditDialog: boolean) => void }) {
+
   const { selectedUser } = SelectedUserUtils();
   const { messages, setMessages } = MessagesUtils();
   const [editedMessage, setEditedmessage] = useState("");
@@ -30,6 +31,7 @@ function EditMessageDialog({ editMessageTimestamp, setShowEditDialog }: { editMe
     setShowEditDialog(false);
     setEditedmessage("");
   }
+  
   return (
     <div className="edit-chat-dialog__container">
       <input type="text" placeholder="Type message text" className="edit-chat-dialog__input" onChange={(e) => setEditedmessage(e.target.value)} />
