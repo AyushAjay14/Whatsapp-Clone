@@ -1,11 +1,4 @@
-import {
-  DarkModeIcon,
-  NoNotificationIcon,
-  MoreOptionsIcon,
-  NewChatIcon,
-  OpenStatusIcon,
-  CloseIcon,
-} from "@/assets/icons/Icons";
+import { DarkModeIcon, NoNotificationIcon, MoreOptionsIcon, NewChatIcon, OpenStatusIcon, CloseIcon } from "@/assets/icons/Icons";
 
 import "./profile.css";
 import { CompactModeUtils } from "@/context";
@@ -24,10 +17,7 @@ function Profile() {
           <OpenStatusIcon />
           <NewChatIcon />
           <MoreOptionsIcon />
-          <button
-            className="mode__btn"
-            onClick={() => setIsCompactMode(!isCompactMode)}
-          >
+          <button className="mode__btn" onClick={() => setIsCompactMode(!isCompactMode)}>
             {isCompactMode ? "Spacious Mode" : "Compact Mode"}
           </button>
         </div>

@@ -8,10 +8,7 @@ function UnselectedChat() {
       </div>
       <div className="whatsapp-description__container">
         <h2>WhatsApp Web</h2>
-        <p>
-          Send and receive messages without keeping your phone online. Use
-          WhatsApp on up to 4 linked devices and 1 phone at the same time.
-        </p>
+        <p>Send and receive messages without keeping your phone online. Use WhatsApp on up to 4 linked devices and 1 phone at the same time.</p>
       </div>
       <div className="bottom-content__container">
         <i className="bx bxs-lock-alt" />

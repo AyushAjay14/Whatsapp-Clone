@@ -6,7 +6,6 @@ export function getMessagesFromLocalStorage() {
   return {};
 }
 export function updateMessagesInLocalStorage(newMessages: Messages) {
-  console.log(newMessages);
   const messageToString = JSON.stringify(newMessages);
   localStorage.setItem("messages", messageToString);
 }

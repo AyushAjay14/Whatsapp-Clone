@@ -13,9 +13,7 @@ function Contacts() {
    * 3. this component should provide that this user is selected, now parent will do whatever business/logic it wants to do.
    */
   const handleClickOnUserContact = (event: React.MouseEvent<HTMLElement>) => {
-    const user = connections.find(
-      (connection) => connection.id === +event.currentTarget.id
-    );
+    const user = connections.find((connection) => connection.id === +event.currentTarget.id);
     if (user) setSelectedUser(user);
   };
 
