@@ -8,8 +8,10 @@ import {
 } from "@/assets/icons/Icons";
 
 import "./profile.css";
+import { CompactModeUtils } from "@/context";
 
 function Profile() {
+  const { isCompactMode, setIsCompactMode } = CompactModeUtils();
   return (
     // no need for this extra div
     <>
@@ -22,6 +24,12 @@ function Profile() {
           <OpenStatusIcon />
           <NewChatIcon />
           <MoreOptionsIcon />
+          <button
+            className="mode__btn"
+            onClick={() => setIsCompactMode(!isCompactMode)}
+          >
+            {isCompactMode ? "Spacious Mode" : "Compact Mode"}
+          </button>
         </div>
       </div>
       <div className="description-box__notification">

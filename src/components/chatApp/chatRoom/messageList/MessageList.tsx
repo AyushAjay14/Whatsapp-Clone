@@ -1,5 +1,10 @@
 import "./messageList.css";
-import { MessagesUtils, SelectedUserUtils } from "@/context/";
+import {
+  CompactModeUtils,
+  DeleteDialogUtils,
+  MessagesUtils,
+  SelectedUserUtils,
+} from "@/context/";
 import { updateMessagesInLocalStorage } from "@/utils";
 import { useEffect, useRef, useState } from "react";
 import EditMessageDialog from "../editMessageDialog/EditMessageDialog";
@@ -10,26 +15,36 @@ function MessageList() {
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [editMessageTimestamp, setEditMessageTimestamp] = useState("");
   const lastMessageRef = useRef<HTMLDivElement | null>(null);
+  const [selectedMessageTimeStamp, setSelectedMessageTimeStamp] = useState<
+    string | null
+  >(null);
+  const [deleteMessage, setDeleteMessage] = useState(false);
+  const { confirmDelete, setConfirmDelete, setShowDeleteDialog } =
+    DeleteDialogUtils();
+  const { isCompactMode } = CompactModeUtils();
 
   useEffect(() => {
     if (lastMessageRef.current) {
       lastMessageRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
-
-  function handleDeleteMessage(event: React.MouseEvent<HTMLButtonElement>) {
-    if (selectedUser) {
+  useEffect(() => {
+    if (selectedUser && confirmDelete && deleteMessage) {
       const currentUserMessageList = messages[selectedUser.id].filter(
-        (message) => message.timeStamp !== event.currentTarget.id
+        (message) => message.timeStamp !== selectedMessageTimeStamp
       );
       const newMessage = {
         ...messages,
         [selectedUser.id]: currentUserMessageList,
       };
       setMessages(newMessage);
-      updateMessagesInLocalStorage(newMessage);
+      // updateMessagesInLocalStorage(newMessage);
+      setShowDeleteDialog(false);
+      setSelectedMessageTimeStamp(null);
+      setConfirmDelete(false);
+      setDeleteMessage(false);
     }
-  }
+  }, [confirmDelete, deleteMessage]);
   function handleEditMessage(event: React.MouseEvent<HTMLButtonElement>) {
     setShowEditDialog(true);
     setEditMessageTimestamp(event.currentTarget.id);
@@ -65,7 +80,10 @@ function MessageList() {
               <button
                 className="button"
                 id={message.timeStamp}
-                onClick={handleDeleteMessage}
+                onClick={() => {
+                  setShowDeleteDialog(true), setDeleteMessage(true);
+                  setSelectedMessageTimeStamp(message.timeStamp);
+                }}
               >
                 Delete
               </button>
@@ -80,7 +98,9 @@ function MessageList() {
             <div className="message">
               <p>{message.text}</p>
               <span className="timestamp-gap" />
-              <p className="timestamp">{message.timeStamp.slice(0, 5)}</p>
+              {!isCompactMode && (
+                <p className="timestamp">{message.timeStamp.slice(0, 5)}</p>
+              )}
             </div>
           </div>
         ))}

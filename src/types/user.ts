@@ -5,5 +5,5 @@ export type User = {
 };
 export type SelectedUserContextType = {
   selectedUser: User | null;
-  setSelectedUser: (user: User) => void;
+  setSelectedUser: (user: User | null) => void;
 };

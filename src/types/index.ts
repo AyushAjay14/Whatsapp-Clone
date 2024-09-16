@@ -1,5 +1,15 @@
-import { Messages } from "./message";
-import { User } from "./user";
-import { Connection } from "./connection";
+import { Messages, MessagesContextType } from "./message";
+import { User, SelectedUserContextType } from "./user";
+import { Connection, ConnectionsContextType } from "./connection";
+import { CompactModeContextType, DeleteDialogContextType } from "./other";
 
-export type { Messages, User, Connection };
+export type {
+  Messages,
+  MessagesContextType,
+  User,
+  SelectedUserContextType,
+  Connection,
+  ConnectionsContextType,
+  DeleteDialogContextType,
+  CompactModeContextType,
+};

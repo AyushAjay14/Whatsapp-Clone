@@ -1,0 +1,30 @@
+.dialog__container {
+  position: absolute;
+  top: 35%;
+  left: 40%;
+  z-index: 100;
+  max-width: 450px;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  padding: 1rem;
+  background-color: #111b21;
+}
+.dialog__heading {
+  color: rgba(241, 241, 242, 0.88);
+  margin-top: 0.5em;
+}
+.dialog__btn__container {
+  margin-top: 2rem;
+  align-self: flex-end;
+  margin-top: auto;
+}
+.dialog__btn {
+  color: rgba(241, 241, 242, 0.88);
+  background-color: #005c4b;
+  padding: 10px;
+  border-radius: 10px;
+  margin: 0 10px;
+  cursor: pointer;
+}

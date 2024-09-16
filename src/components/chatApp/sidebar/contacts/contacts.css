@@ -30,6 +30,9 @@
   margin-bottom: 4px;
   max-width: 100%;
 }
+.contact__container:hover .button {
+  opacity: 1;
+}
 .content__container p {
   font-size: 0.72em;
   margin: 0px 0 0 0;
@@ -40,4 +43,8 @@
   -webkit-line-clamp: 3;
   line-clamp: 3;
   -webkit-box-orient: vertical;
+}
+.delete-conversation__btn {
+  position: absolute;
+  top: -18px;
 }
