@@ -3,6 +3,7 @@
   display: flex;
   border-bottom: 1px solid rgb(50, 55, 57);
   position: relative;
+  height: 78px;
   cursor: pointer;
 }
 .profile-photo__img {
