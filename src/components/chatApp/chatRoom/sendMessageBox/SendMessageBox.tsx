@@ -5,12 +5,13 @@ import { MessagesUtils, SelectedUserUtils } from "@/context/";
 import { updateMessagesInLocalStorage } from "@/utils";
 
 function SendMessageBox() {
-  
+
   const [inputMessage, setInputMessage] = useState("");
   const { selectedUser } = SelectedUserUtils();
   const { messages, setMessages } = MessagesUtils();
 
   function handleSendMessage() {
+    
     if (inputMessage.length > 0 && selectedUser) {
       const timeStamp = new Date().toTimeString().split(" ")[0];
       if (Array.isArray(messages[selectedUser.id])) {
