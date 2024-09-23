@@ -1,7 +1,6 @@
 .message-box__container {
   background: #202c33;
   position: relative;
-  /* z-index: 100; */
 }
 .message-box-secondary__container {
   padding: 10px;

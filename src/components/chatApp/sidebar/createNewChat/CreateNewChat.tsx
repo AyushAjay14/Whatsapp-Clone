@@ -33,7 +33,6 @@ function CreateNewChat() {
           Start new Conversation
         </button>
       </div>
-      {/* {showDialog && <NewChatDialog setShowDialog={setShowDialog} />} */}
       <ConfirmationBox isModalVisible={isModalVisible}>
         <ConfirmationBox.Header>{"Enter Username"}</ConfirmationBox.Header>
         <ConfirmationBox.Body editText={editText} setEditText={setEditText} />
