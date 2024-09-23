@@ -1,22 +1,21 @@
-import { CompactModeUtils, ConnectionsUtils, DeleteDialogUtils, MessagesUtils, SelectedUserUtils } from "@/context";
+import { CompactModeUtils, ConnectionsUtils, MessagesUtils, SelectedUserUtils } from "@/context";
 import Tooltip from "./tooltip/Tooltip";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { updateConnectionsInLocalStorage, updateMessagesInLocalStorage } from "@/utils";
+import ConfirmationBox from "@/components/chatApp/confirmationBox/ConfirmationBox";
 
 function ContactList({ handleClickOnUserContact }: { handleClickOnUserContact: (event: React.MouseEvent<HTMLElement>) => void }) {
-  
   const { selectedUser, setSelectedUser } = SelectedUserUtils();
   const { connections, setConnections } = ConnectionsUtils();
   const { messages, setMessages } = MessagesUtils();
   const [hoveredContactId, setHoveredContactId] = useState<number | null>(null);
   const [selectedConnectionid, setSelectedConnectionId] = useState<number | null>(null);
-  const [deleteConversation, setDeleteConversation] = useState(false);
-  const { confirmDelete, setConfirmDelete, setShowDeleteDialog } = DeleteDialogUtils();
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const { isCompactMode } = CompactModeUtils();
 
-  useEffect(() => {
-    if (confirmDelete && selectedConnectionid !== null && deleteConversation) {
-      setShowDeleteDialog(false);
+  function handleConfirmButton(event: any) {
+    event.stopPropagation();
+    if (selectedConnectionid !== null) {
       const newMessages = { ...messages };
       delete newMessages[selectedConnectionid];
       updateMessagesInLocalStorage(newMessages);
@@ -24,12 +23,10 @@ function ContactList({ handleClickOnUserContact }: { handleClickOnUserContact: (
       const newConnections = connections.filter((connection) => connection.id !== selectedConnectionid);
       updateConnectionsInLocalStorage(newConnections);
       setConnections(newConnections);
-      setConfirmDelete(false);
-      setDeleteConversation(false);
       if (selectedUser?.id === selectedConnectionid) setSelectedUser(null);
+      setIsModalVisible(false);
     }
-  }, [confirmDelete, deleteConversation]);
-
+  }
   return (
     <>
       {connections.map((connection) => {
@@ -40,7 +37,7 @@ function ContactList({ handleClickOnUserContact }: { handleClickOnUserContact: (
               id={`${connection.id}`}
               className="button delete-conversation__btn"
               onClick={(event) => {
-                setShowDeleteDialog(true), setSelectedConnectionId(connection.id), setDeleteConversation(true), event.stopPropagation();
+                setIsModalVisible(true), setSelectedConnectionId(connection.id), event.stopPropagation();
               }}
             >
               Delete
@@ -53,6 +50,24 @@ function ContactList({ handleClickOnUserContact }: { handleClickOnUserContact: (
               <h2>{connection.name}</h2>
               {!isCompactMode && messages[connection.id]?.at(-1) && <p className="truncate-text">{lastMessage}</p>}
             </div>
+            <ConfirmationBox isModalVisible={isModalVisible}>
+              <ConfirmationBox.Header>
+                <h2>Are you sure you want to Delete?</h2>
+              </ConfirmationBox.Header>
+              <ConfirmationBox.Footer>
+                <button
+                  onClick={(event) => {
+                    setIsModalVisible(false), event.stopPropagation();
+                  }}
+                  className="confirmation-box-left-button"
+                >
+                  CANCEL
+                </button>
+                <button onClick={handleConfirmButton} className="confirmation-box-right-button">
+                  YES
+                </button>
+              </ConfirmationBox.Footer>
+            </ConfirmationBox>
           </div>
         );
       })}

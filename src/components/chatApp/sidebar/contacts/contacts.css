@@ -21,10 +21,9 @@
   flex: 1;
   margin-left: 1.3rem;
   color: rgba(241, 241, 242, 0.88);
-  max-width: 100%;
-  box-sizing: border-box;
+  width: 100%;
 }
-.contact__container h2 {
+.content__container h2 {
   font-size: 1em;
   font-weight: 500;
   white-space: nowrap;
@@ -37,11 +36,13 @@
 .content__container p {
   font-size: 0.72em;
   margin: 0px 0 0 0;
+}
+.truncate-text {
   overflow: hidden;
-  max-width: 100%;
-  word-break: break-word;
+  text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  word-wrap: break-word;
   line-clamp: 3;
   -webkit-box-orient: vertical;
 }

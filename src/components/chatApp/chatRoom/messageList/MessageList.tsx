@@ -1,20 +1,20 @@
 import "./messageList.css";
-import { CompactModeUtils, DeleteDialogUtils, MessagesUtils, SelectedUserUtils } from "@/context/";
+import { CompactModeUtils, MessagesUtils, SelectedUserUtils } from "@/context/";
 import { updateMessagesInLocalStorage } from "@/utils";
 import { useEffect, useRef, useState } from "react";
-import EditMessageDialog from "../editMessageDialog/EditMessageDialog";
+import ConfirmationBox from "../../confirmationBox/ConfirmationBox";
+import { Message } from "@/types/message";
 
 function MessageList() {
-  
   const { selectedUser } = SelectedUserUtils();
   const { messages, setMessages } = MessagesUtils();
-  const [showEditDialog, setShowEditDialog] = useState(false);
   const [editMessageTimestamp, setEditMessageTimestamp] = useState("");
   const lastMessageRef = useRef<HTMLDivElement | null>(null);
   const [selectedMessageTimeStamp, setSelectedMessageTimeStamp] = useState<string | null>(null);
-  const [deleteMessage, setDeleteMessage] = useState(false);
-  const { confirmDelete, setConfirmDelete, setShowDeleteDialog } = DeleteDialogUtils();
   const { isCompactMode } = CompactModeUtils();
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [editText, setEditText] = useState("");
+  const [isEditMode, setIsEditMode] = useState(false);
 
   useEffect(() => {
     if (lastMessageRef.current) {
@@ -22,27 +22,47 @@ function MessageList() {
     }
   }, [messages]);
 
-  useEffect(() => {
-    if (selectedUser && confirmDelete && deleteMessage) {
-      const currentUserMessageList = messages[selectedUser.id].filter((message) => message.timeStamp !== selectedMessageTimeStamp);
-      const newMessage = {
-        ...messages,
-        [selectedUser.id]: currentUserMessageList,
-      };
-      setMessages(newMessage);
-      updateMessagesInLocalStorage(newMessage);
-      setShowDeleteDialog(false);
-      setSelectedMessageTimeStamp(null);
-      setConfirmDelete(false);
-      setDeleteMessage(false);
-    }
-  }, [confirmDelete, deleteMessage]);
-
+  function handleOnDelete(message: Message) {
+    setSelectedMessageTimeStamp(message.timeStamp);
+    setIsModalVisible(true);
+  }
   function handleEditMessage(event: React.MouseEvent<HTMLButtonElement>) {
-    setShowEditDialog(true);
+    setIsModalVisible(true);
+    setIsEditMode(true);
     setEditMessageTimestamp(event.currentTarget.id);
   }
+  function handleConfirmButton() {
+    if (isEditMode && selectedUser && editText.length) {
+      const updatedMessages = messages[selectedUser.id]?.map((message) => {
+        if (message.timeStamp === editMessageTimestamp) {
+          return { ...message, text: editText };
+        }
+        return message;
+      });
 
+      const newMessages = {
+        ...messages,
+        [selectedUser.id]: updatedMessages,
+      };
+      setMessages(newMessages);
+      updateMessagesInLocalStorage(newMessages);
+      setIsEditMode(false);
+      setIsModalVisible(false);
+    } else {
+      if (selectedUser) {
+        const currentUserMessageList = messages[selectedUser.id].filter((message) => message.timeStamp !== selectedMessageTimeStamp);
+        const newMessage = {
+          ...messages,
+          [selectedUser.id]: currentUserMessageList,
+        };
+        setMessages(newMessage);
+        updateMessagesInLocalStorage(newMessage);
+        setIsModalVisible(false);
+        setSelectedMessageTimeStamp(null);
+      }
+    }
+    setEditText("");
+  }
   /**
    * REVIEW_COMMENTS: self closing tag if there is nothing in between. JSX syntax, this is not HTML syntax.
    */
@@ -52,19 +72,11 @@ function MessageList() {
         <i className="bx bxs-lock-alt" />
         Messages are end-to-end encrypted. No one outside of this chat, not even WhatsApp, can read or listen to them. Click to learn more.
       </p>
-      {showEditDialog && <EditMessageDialog editMessageTimestamp={editMessageTimestamp} setShowEditDialog={setShowEditDialog} />}
       {selectedUser &&
         messages[selectedUser.id]?.map((message, index) => (
           <div key={message.timeStamp} ref={index === messages[selectedUser.id].length - 1 ? lastMessageRef : null} className="message__container">
             <div className="button-group">
-              <button
-                className="button"
-                id={message.timeStamp}
-                onClick={() => {
-                  setShowDeleteDialog(true), setDeleteMessage(true);
-                  setSelectedMessageTimeStamp(message.timeStamp);
-                }}
-              >
+              <button className="button" id={message.timeStamp} onClick={() => handleOnDelete(message)}>
                 Delete
               </button>
               <button className="button" id={message.timeStamp} onClick={handleEditMessage}>
@@ -76,6 +88,20 @@ function MessageList() {
               <span className="timestamp-gap" />
               {!isCompactMode && <p className="timestamp">{message.timeStamp.slice(0, 5)}</p>}
             </div>
+            <ConfirmationBox isModalVisible={isModalVisible}>
+              <ConfirmationBox.Header>
+                <h2>{isEditMode ? "Edit Message" : "Are you sure you want to Delete?"}</h2>
+              </ConfirmationBox.Header>
+              {isEditMode && <ConfirmationBox.Body editText={editText} setEditText={setEditText} />}
+              <ConfirmationBox.Footer>
+                <button onClick={() => setIsModalVisible(false)} className="confirmation-box-left-button">
+                  CANCEL
+                </button>
+                <button onClick={handleConfirmButton} className="confirmation-box-right-button">
+                  CONFIRM
+                </button>
+              </ConfirmationBox.Footer>
+            </ConfirmationBox>
           </div>
         ))}
     </div>

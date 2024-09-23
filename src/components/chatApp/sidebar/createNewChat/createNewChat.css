@@ -3,6 +3,8 @@
   justify-content: center;
   margin-top: auto;
   margin-bottom: 1rem;
+  position: sticky;
+  bottom: 0%;
 }
 .new-chat__button {
   color: rgba(241, 241, 242, 0.88);

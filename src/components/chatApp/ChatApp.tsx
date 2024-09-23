@@ -5,7 +5,6 @@ import UnselectedChat from "./unselectedChatSection/UnselectedChat";
 import ChatRoom from "./chatRoom/ChatRoom";
 import { User } from "@/types/";
 import { CompactModeUtilContext, DeleteDialogUtilContext, MessagesUtilContext, SelectedUserUtilsContext } from "@/context/";
-import DeleteDialog from "./deleteDialog/DeleteDialog";
 
 function ChatApp() {
   // REVIEW_COMMENTS: implemented a SelectedUserContext here via React.createContext, avoid props drilling
@@ -45,7 +44,6 @@ function ChatApp() {
           <CompactModeUtilContext.Provider value={compactModeUtils}>
             <div className="chat-app__container">
               <SideBar />
-              {showDeleteDialog && <DeleteDialog />}
               {selectedUser ? <ChatRoom key={selectedUser.id} /> : <UnselectedChat />}
             </div>
           </CompactModeUtilContext.Provider>
