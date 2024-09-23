@@ -31,6 +31,7 @@ function MessageList() {
     setIsEditMode(true);
     setEditMessageTimestamp(event.currentTarget.id);
   }
+
   function handleConfirmButton() {
     if (isEditMode && selectedUser && editText.length) {
       const updatedMessages = messages[selectedUser.id]?.map((message) => {

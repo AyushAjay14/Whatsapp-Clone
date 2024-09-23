@@ -1,10 +1,10 @@
 import { CompactModeUtils, ConnectionsUtils, MessagesUtils, SelectedUserUtils } from "@/context";
 import Tooltip from "./tooltip/Tooltip";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { updateConnectionsInLocalStorage, updateMessagesInLocalStorage } from "@/utils";
 import ConfirmationBox from "@/components/chatApp/confirmationBox/ConfirmationBox";
 
-function ContactList({ handleClickOnUserContact }: { handleClickOnUserContact: (event: React.MouseEvent<HTMLElement>) => void }) {
+function ContactItem({ handleClickOnUserContact }: { handleClickOnUserContact: (event: React.MouseEvent<HTMLElement>) => void }) {
   const { selectedUser, setSelectedUser } = SelectedUserUtils();
   const { connections, setConnections } = ConnectionsUtils();
   const { messages, setMessages } = MessagesUtils();
@@ -12,6 +12,7 @@ function ContactList({ handleClickOnUserContact }: { handleClickOnUserContact: (
   const [selectedConnectionid, setSelectedConnectionId] = useState<number | null>(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { isCompactMode } = CompactModeUtils();
+  const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
 
   function handleConfirmButton(event: any) {
     event.stopPropagation();
@@ -27,28 +28,47 @@ function ContactList({ handleClickOnUserContact }: { handleClickOnUserContact: (
       setIsModalVisible(false);
     }
   }
+  function handleMouseEnter(event: React.MouseEvent<HTMLElement>, connectionId: number) {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const tooltipHeight = 100;
+    const windowHeight = window.innerHeight;
+
+    let tooltipTop = rect.top + window.scrollY - 10;
+    if (rect.bottom + tooltipHeight > windowHeight) {
+      tooltipTop = rect.top + window.scrollY - tooltipHeight - 20;
+    }
+
+    setTooltipPosition({
+      top: tooltipTop,
+      left: rect.right + 10,
+    });
+    setHoveredContactId(connectionId);
+  }
+
   return (
     <>
       {connections.map((connection) => {
         const lastMessage = messages[connection.id]?.at(-1)?.text;
         return (
-          <div key={connection.id} id={`${connection.id}`} className="contact__container" onClick={handleClickOnUserContact} onMouseEnter={() => setHoveredContactId(connection.id)} onMouseLeave={() => setHoveredContactId(null)}>
-            <button
-              id={`${connection.id}`}
-              className="button delete-conversation__btn"
-              onClick={(event) => {
-                setIsModalVisible(true), setSelectedConnectionId(connection.id), event.stopPropagation();
-              }}
-            >
-              Delete
-            </button>
-            {messages[connection.id]?.at(-1)?.text && connection.id === hoveredContactId && <Tooltip connection={connection} />}
-            <div>
-              <img className="profile-photo__img" src={connection.profileImg} alt="" />
-            </div>
-            <div className="content__container">
-              <h2>{connection.name}</h2>
-              {!isCompactMode && messages[connection.id]?.at(-1) && <p className="truncate-text">{lastMessage}</p>}
+          <Fragment key={connection.id}>
+            {messages[connection.id]?.at(-1)?.text && connection.id === hoveredContactId && <Tooltip connection={connection} tooltipPosition={tooltipPosition} />}
+            <div key={connection.id} id={`${connection.id}`} className="contact__container" onClick={handleClickOnUserContact} onMouseEnter={(event) => handleMouseEnter(event, connection.id)} onMouseLeave={() => setHoveredContactId(null)}>
+              <button
+                id={`${connection.id}`}
+                className="button delete-conversation__btn"
+                onClick={(event) => {
+                  setIsModalVisible(true), setSelectedConnectionId(connection.id), event.stopPropagation();
+                }}
+              >
+                Delete
+              </button>
+              <div>
+                <img className="profile-photo__img" src={connection.profileImg} alt="" />
+              </div>
+              <div className="content__container">
+                <h2>{connection.name}</h2>
+                {!isCompactMode && messages[connection.id]?.at(-1) && <p className="truncate-text">{lastMessage}</p>}
+              </div>
             </div>
             <ConfirmationBox isModalVisible={isModalVisible}>
               <ConfirmationBox.Header>
@@ -68,11 +88,11 @@ function ContactList({ handleClickOnUserContact }: { handleClickOnUserContact: (
                 </button>
               </ConfirmationBox.Footer>
             </ConfirmationBox>
-          </div>
+          </Fragment>
         );
       })}
     </>
   );
 }
 
-export default ContactList;
+export default ContactItem;

@@ -1,6 +1,6 @@
 import "./contacts.css";
 import { ConnectionsUtils, SelectedUserUtils } from "@/context/";
-import ContactList from "./ContactList";
+import ContactList from "./ContactItem";
 
 function Contacts() {
   const { setSelectedUser } = SelectedUserUtils();
@@ -21,9 +21,9 @@ function Contacts() {
    * wrapper <--> container
    */
   return (
-    <>
+    <div className="contact-list__container">
       <ContactList handleClickOnUserContact={handleClickOnUserContact} />
-    </>
+    </div>
   );
 }
 

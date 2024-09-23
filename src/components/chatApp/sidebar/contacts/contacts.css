@@ -1,10 +1,13 @@
+.contact-list__container {
+  overflow-y: auto;
+}
 .contact__container {
   padding: 6px 20px;
   display: flex;
   border-bottom: 1px solid rgb(50, 55, 57);
-  position: relative;
   height: 78px;
   cursor: pointer;
+  position: relative;
 }
 .profile-photo__img {
   border-radius: 50%;
@@ -16,12 +19,12 @@
   justify-content: space-between;
 }
 .content__container {
-  overflow: hidden;
   margin-bottom: 2px;
   flex: 1;
   margin-left: 1.3rem;
   color: rgba(241, 241, 242, 0.88);
   width: 100%;
+  overflow: hidden;
 }
 .content__container h2 {
   font-size: 1em;
@@ -38,7 +41,7 @@
   margin: 0px 0 0 0;
 }
 .truncate-text {
-  overflow: hidden;
+  overflow-y: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -48,5 +51,6 @@
 }
 .delete-conversation__btn {
   position: absolute;
-  top: -18px;
+  top: 0;
+  z-index: 100;
 }

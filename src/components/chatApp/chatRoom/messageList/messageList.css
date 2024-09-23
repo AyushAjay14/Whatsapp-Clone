@@ -1,6 +1,6 @@
 .message-list__container {
   position: relative;
-  overflow: hidden scroll;
+  overflow-y: auto;
   padding: 20px 5% 2pc;
   flex-grow: 1;
 }
@@ -14,10 +14,10 @@
   margin-bottom: 2rem;
   border-radius: 5px;
   line-height: 20px;
-  z-index: 9;
+  /* z-index: 9; */
 }
 .message__container {
-  z-index: 9;
+  /* z-index: 9; */
   display: flex;
   flex-direction: column;
   margin-bottom: 12px;
