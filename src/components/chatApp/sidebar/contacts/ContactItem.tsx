@@ -19,7 +19,6 @@ function ContactItem({ handleClickOnUserContact, connection }: { handleClickOnUs
   useEffect(() => {
     const element = textRef.current;
     if (element) {
-      console.log(element.scrollWidth, element.clientWidth);
       setIsTruncated(element.scrollWidth > element.clientWidth);
     }
   }, [hoveredContactId]);

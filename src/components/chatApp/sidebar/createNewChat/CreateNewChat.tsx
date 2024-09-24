@@ -29,7 +29,12 @@ function CreateNewChat() {
         <ConfirmationBox.Header>{"Enter Username"}</ConfirmationBox.Header>
         <ConfirmationBox.Body editText={editText} setEditText={setEditText} />
         <ConfirmationBox.Footer>
-          <button onClick={() => setIsModalVisible(false)} className="confirmation-box-left-button">
+          <button
+            onClick={() => {
+              setIsModalVisible(false), setEditText("");
+            }}
+            className="confirmation-box-left-button"
+          >
             CANCEL
           </button>
           <button onClick={handleConfirmButton} className="confirmation-box-right-button">
