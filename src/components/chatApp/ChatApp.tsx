@@ -1,32 +1,30 @@
-import { useState } from "react";
+import { useReducer, useState } from "react";
 import "./chatApp.css";
 import SideBar from "./sidebar/SideBar";
 import UnselectedChat from "./unselectedChatSection/UnselectedChat";
 import ChatRoom from "./chatRoom/ChatRoom";
 import { User } from "@/types/";
-import { CompactModeUtilContext, DeleteDialogUtilContext, MessagesUtilContext, SelectedUserUtilsContext } from "@/context/";
+import { CompactModeUtilContext, MessagesUtilContext, SelectedUserUtilsContext } from "@/context/";
+import { messageReducer } from "@/reducers/messageReducer";
 
 function ChatApp() {
   // REVIEW_COMMENTS: implemented a SelectedUserContext here via React.createContext, avoid props drilling
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
-  const [messages, setMessages] = useState({});
-  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-  const [confirmDelete, setConfirmDelete] = useState(false);
   const [isCompactMode, setIsCompactMode] = useState(false);
 
+  const initalMessageState = {
+    messages: {},
+    isEditMode: false,
+    selectedMessageTimeStamp: null,
+  };
+  const [messageState, messageDispatch] = useReducer(messageReducer, initalMessageState);
   const selectedUserUtils = {
     selectedUser,
     setSelectedUser,
   };
   const messagesUtils = {
-    messages,
-    setMessages,
-  };
-  const deleteDialogUtils = {
-    showDeleteDialog,
-    confirmDelete,
-    setShowDeleteDialog,
-    setConfirmDelete,
+    messageState,
+    messageDispatch,
   };
   const compactModeUtils = {
     isCompactMode,
@@ -40,14 +38,12 @@ function ChatApp() {
   return (
     <SelectedUserUtilsContext.Provider value={selectedUserUtils}>
       <MessagesUtilContext.Provider value={messagesUtils}>
-        <DeleteDialogUtilContext.Provider value={deleteDialogUtils}>
-          <CompactModeUtilContext.Provider value={compactModeUtils}>
-            <div className="chat-app__container">
-              <SideBar />
-              {selectedUser ? <ChatRoom key={selectedUser.id} /> : <UnselectedChat />}
-            </div>
-          </CompactModeUtilContext.Provider>
-        </DeleteDialogUtilContext.Provider>
+        <CompactModeUtilContext.Provider value={compactModeUtils}>
+          <div className="chat-app__container">
+            <SideBar />
+            {selectedUser ? <ChatRoom key={selectedUser.id} /> : <UnselectedChat />}
+          </div>
+        </CompactModeUtilContext.Provider>
       </MessagesUtilContext.Provider>
     </SelectedUserUtilsContext.Provider>
   );

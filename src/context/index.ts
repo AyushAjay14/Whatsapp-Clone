@@ -2,7 +2,6 @@ import { createContext, useContext } from "react";
 import { CompactModeContextType, ConnectionsContextType } from "@/types/";
 import { MessagesContextType } from "@/types/";
 import { SelectedUserContextType } from "@/types/";
-import { DeleteDialogContextType } from "@/types/";
 
 export const SelectedUserUtilsContext = createContext<SelectedUserContextType>({
   selectedUser: null,
@@ -10,20 +9,13 @@ export const SelectedUserUtilsContext = createContext<SelectedUserContextType>({
 });
 
 export const ConnectionsUtilsContext = createContext<ConnectionsContextType>({
-  connections: [],
-  setConnections: () => {},
+  connectionState: { connections: [] },
+  connectionDispatch: () => {},
 });
 
 export const MessagesUtilContext = createContext<MessagesContextType>({
-  messages: {},
-  setMessages: () => {},
-});
-
-export const DeleteDialogUtilContext = createContext<DeleteDialogContextType>({
-  showDeleteDialog: false,
-  setShowDeleteDialog: () => {},
-  confirmDelete: false,
-  setConfirmDelete: () => {},
+  messageState: { messages: {}, isEditMode: false, selectedMessageTimeStamp: null },
+  messageDispatch: () => {},
 });
 
 export const CompactModeUtilContext = createContext<CompactModeContextType>({
@@ -41,10 +33,6 @@ export function ConnectionsUtils() {
 
 export function MessagesUtils() {
   return useContext(MessagesUtilContext);
-}
-
-export function DeleteDialogUtils() {
-  return useContext(DeleteDialogUtilContext);
 }
 
 export function CompactModeUtils() {

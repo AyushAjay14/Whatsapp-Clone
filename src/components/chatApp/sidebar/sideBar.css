@@ -1,6 +1,7 @@
 .sidebar__container {
   flex: 1 1 30%;
   background: #111b21;
+  overflow-y: auto;
   min-width: 22rem;
   /*REVIEW_COMMENTS: u r setting min-height to a max value why not use height*/
   min-height: 800px;

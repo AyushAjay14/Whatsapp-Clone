@@ -2,25 +2,17 @@ import { useState } from "react";
 import "./createNewChat.css";
 import ConfirmationBox from "../../confirmationBox/ConfirmationBox";
 import { ConnectionsUtils } from "@/context";
-import { updateConnectionsInLocalStorage } from "@/utils";
-import { PORFILE_IMG } from "@/constant";
 
 function CreateNewChat() {
   const [editText, setEditText] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const { connections, setConnections } = ConnectionsUtils();
+  const { connectionDispatch } = ConnectionsUtils();
 
   function handleStartnewChat() {
     setIsModalVisible(true);
   }
   function handleConfirmButton() {
-    let id = 0;
-    if (connections && connections.length) {
-      id = connections[connections.length - 1].id + 1;
-    }
-    const newConnectionArray = [...connections, { id, name: editText, profileImg: PORFILE_IMG }];
-    setConnections(newConnectionArray);
-    updateConnectionsInLocalStorage(newConnectionArray);
+    connectionDispatch({ type: "CREATE_CONVERSATION", payload: { editText } });
     setEditText("");
     setIsModalVisible(false);
   }

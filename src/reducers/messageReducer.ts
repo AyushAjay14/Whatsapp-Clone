@@ -1,47 +1,62 @@
-import { Message } from "@/types/message";
+import { MessageStateType } from "@/types/message";
+import { MessageAction } from "@/types/reducer";
+import { updateMessagesInLocalStorage } from "@/utils";
 
-export function messageReducer(state, action) {
+export function messageReducer(state: MessageStateType, action: MessageAction) {
   switch (action.type) {
-    case "SET_EDIT_MESSAGE_TIMESTAMP":
-      return { ...state, editMessageTimestamp: action.payload };
     case "SET_SELECTED_MESSAGE_TIMESTAMP":
       return { ...state, selectedMessageTimeStamp: action.payload };
-    case "TOGGLE_MODAL":
-      return { ...state, isModalVisible: action.payload };
     case "SET_EDIT_MODE":
       return { ...state, isEditMode: action.payload };
-    case "SET_EDIT_TEXT":
-      return { ...state, editText: action.payload };
+    case "ADD_MESSAGE": {
+      const timeStamp = new Date().toTimeString().split(" ")[0];
+      const { selectedUser, inputMessage } = action.payload;
+      const existingMessages = state.messages[selectedUser.id] || [];
+
+      const lastMessage = existingMessages[existingMessages.length - 1];
+      if (lastMessage && lastMessage.text === inputMessage && lastMessage.timeStamp === timeStamp) {
+        return state;
+      }
+      const newMessageArray = [...existingMessages, { text: inputMessage, timeStamp }];
+      const newMessages = { ...state.messages, [selectedUser.id]: newMessageArray };
+      updateMessagesInLocalStorage(newMessages);
+
+      return { ...state, messages: newMessages };
+    }
     case "DELETE_MESSAGE": {
-      const updatedMessages = state.messages[action.payload].filter((message: Message) => message.timeStamp !== state.selectedMessageTimeStamp);
-      return {
-        ...state,
-        messages: {
-          ...state.messages,
-          [action.payload]: updatedMessages,
-        },
+      const currentUserMessageList = state.messages[action.payload.selectedUser.id].filter((message) => message.timeStamp !== state.selectedMessageTimeStamp);
+      const newMessages = {
+        ...state.messages,
+        [action.payload.selectedUser.id]: currentUserMessageList,
       };
+      updateMessagesInLocalStorage(newMessages);
+      return { ...state, messages: newMessages };
     }
     case "EDIT_MESSAGE": {
-      const updatedMessages = state.messages[action.payload.timeStamp]?.map((message: Message) => {
-        if (message.timeStamp === action.payload.timeStamp) {
-          return { ...message, text: action.payload.text };
+      const updatedMessages = state.messages[action.payload.selectedUser.id]?.map((message) => {
+        if (message.timeStamp === state.selectedMessageTimeStamp) {
+          return { ...message, text: action.payload.editText };
         }
         return message;
       });
-      return {
-        ...state,
-        messages: {
-          ...state.messages,
-          [action.payload.timeStamp]: updatedMessages,
-        },
+
+      const newMessages = {
+        ...state.messages,
+        [action.payload.selectedUser.id]: updatedMessages,
       };
+      updateMessagesInLocalStorage(newMessages);
+      return { ...state, messages: newMessages };
     }
     case "LOAD_MESSAGES":
       return { ...state, messages: action.payload };
-
+    case "DELETE_CONVERSATION": {
+      const newMessages = { ...state.messages };
+      delete newMessages[action.payload.selectedConnectionid];
+      updateMessagesInLocalStorage(newMessages);
+      return { ...state, messages: newMessages };
+    }
     case "RESET_STATE":
-      return { ...state, editText: "", isEditMode: false, isModalVisible: false };
+      return { ...state, isEditMode: false, selectedMessageTimeStamp: null };
 
     default:
       return state;

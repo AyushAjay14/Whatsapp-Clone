@@ -4,7 +4,8 @@ import ContactList from "./ContactItem";
 
 function Contacts() {
   const { setSelectedUser } = SelectedUserUtils();
-  const { connections } = ConnectionsUtils();
+  const { connectionState } = ConnectionsUtils();
+  const { connections } = connectionState;
   // function Contacts({ setselectedUser }: { setselectedUser: Function }) {
   /**
    * REVIEW_COMMENT:

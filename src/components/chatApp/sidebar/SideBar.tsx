@@ -3,25 +3,27 @@ import Profile from "./profile/Profile";
 import SearchField from "./searchField/SearchField";
 import Contacts from "./contacts/Contacts";
 import CreateNewChat from "./createNewChat/CreateNewChat";
-import { useEffect, useState } from "react";
+import { useEffect, useReducer } from "react";
 import { ConnectionsUtilsContext, MessagesUtils } from "@/context";
-import { Connection } from "@/types";
 import { getConnectionsFromLocalStorage, getMessagesFromLocalStorage } from "@/utils";
+import { connectionReducer } from "@/reducers/connectionsReducer";
 
 function SideBar() {
-  const [connections, setConnections] = useState<Connection[]>([]);
-  const { setMessages } = MessagesUtils();
-
+  const { messageDispatch } = MessagesUtils();
+  const initialConnectionState = {
+    connections: [],
+  };
+  const [connectionState, connectionDispatch] = useReducer(connectionReducer, initialConnectionState);
   useEffect(() => {
     const localStorageConnections = getConnectionsFromLocalStorage();
-    setConnections(localStorageConnections);
+    connectionDispatch({ type: "LOAD_CONNECTIONS", payload: localStorageConnections });
     const localStorageMessages = getMessagesFromLocalStorage();
-    setMessages(localStorageMessages);
+    messageDispatch({ type: "LOAD_MESSAGES", payload: localStorageMessages });
   }, []);
 
   const contextValue = {
-    connections,
-    setConnections,
+    connectionState,
+    connectionDispatch,
   };
 
   return (

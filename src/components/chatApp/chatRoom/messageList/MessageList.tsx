@@ -1,21 +1,17 @@
 import "./messageList.css";
 import { CompactModeUtils, MessagesUtils, SelectedUserUtils } from "@/context/";
-import { updateMessagesInLocalStorage } from "@/utils";
 import { useEffect, useRef, useState } from "react";
 import ConfirmationBox from "../../confirmationBox/ConfirmationBox";
 import { Message } from "@/types/message";
 
 function MessageList() {
   const { selectedUser } = SelectedUserUtils();
-  const { messages, setMessages } = MessagesUtils();
-  const [editMessageTimestamp, setEditMessageTimestamp] = useState("");
+  const { messageState, messageDispatch } = MessagesUtils();
+  const { messages, isEditMode } = messageState;
   const lastMessageRef = useRef<HTMLDivElement | null>(null);
-  const [selectedMessageTimeStamp, setSelectedMessageTimeStamp] = useState<string | null>(null);
   const { isCompactMode } = CompactModeUtils();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [editText, setEditText] = useState("");
-  const [isEditMode, setIsEditMode] = useState(false);
-
   useEffect(() => {
     if (lastMessageRef.current) {
       lastMessageRef.current.scrollIntoView({ behavior: "smooth" });
@@ -23,45 +19,26 @@ function MessageList() {
   }, [messages]);
 
   function handleOnDelete(message: Message) {
-    setSelectedMessageTimeStamp(message.timeStamp);
+    messageDispatch({ type: "SET_SELECTED_MESSAGE_TIMESTAMP", payload: message.timeStamp });
     setIsModalVisible(true);
   }
   function handleEditMessage(event: React.MouseEvent<HTMLButtonElement>) {
+    messageDispatch({ type: "TOGGLE_MODAL", payload: true });
+    messageDispatch({ type: "SET_EDIT_MODE", payload: true });
+    messageDispatch({ type: "SET_SELECTED_MESSAGE_TIMESTAMP", payload: event.currentTarget.id });
     setIsModalVisible(true);
-    setIsEditMode(true);
-    setEditMessageTimestamp(event.currentTarget.id);
   }
 
   function handleConfirmButton() {
     if (isEditMode && selectedUser && editText.length) {
-      const updatedMessages = messages[selectedUser.id]?.map((message) => {
-        if (message.timeStamp === editMessageTimestamp) {
-          return { ...message, text: editText };
-        }
-        return message;
-      });
-
-      const newMessages = {
-        ...messages,
-        [selectedUser.id]: updatedMessages,
-      };
-      setMessages(newMessages);
-      updateMessagesInLocalStorage(newMessages);
-      setIsEditMode(false);
-      setIsModalVisible(false);
+      messageDispatch({ type: "EDIT_MESSAGE", payload: { selectedUser, editText } });
     } else {
       if (selectedUser) {
-        const currentUserMessageList = messages[selectedUser.id].filter((message) => message.timeStamp !== selectedMessageTimeStamp);
-        const newMessage = {
-          ...messages,
-          [selectedUser.id]: currentUserMessageList,
-        };
-        setMessages(newMessage);
-        updateMessagesInLocalStorage(newMessage);
-        setIsModalVisible(false);
-        setSelectedMessageTimeStamp(null);
+        messageDispatch({ type: "DELETE_MESSAGE", payload: { selectedUser } });
       }
     }
+    messageDispatch({ type: "RESET_STATE" });
+    setIsModalVisible(false);
     setEditText("");
   }
   /**
