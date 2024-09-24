@@ -3,8 +3,8 @@ import "./confirmationBox.css";
 
 const ConfirmationBox = ({ children, isModalVisible }: { children: ReactNode; isModalVisible: boolean }) => {
   return (
-    <div className="confirmation-box" style={{ display: isModalVisible ? "flex" : "none" }}>
-      {children}
+    <div className="confirmation-box__overlay" style={{ display: isModalVisible ? "flex" : "none" }}>
+      <div className="confirmation-box">{children}</div>
     </div>
   );
 };

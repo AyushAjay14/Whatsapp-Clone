@@ -2,7 +2,6 @@ import { SelectedUserUtils } from "@/context/";
 import "./messageHeader.css";
 
 function MessageHeader() {
-  
   const { selectedUser } = SelectedUserUtils();
 
   return (
@@ -11,7 +10,7 @@ function MessageHeader() {
         <img src={selectedUser?.profileImg} alt="" />
       </div>
       {/* span should not be required here */}
-      <div className="user-name__container">{selectedUser && selectedUser.name}</div>
+      <p className="user-name">{selectedUser && selectedUser.name}</p>
       <div className="seach-option__container">
         <i className="bx bx-search-alt-2" />
         <i className="bx bx-dots-vertical-rounded" />

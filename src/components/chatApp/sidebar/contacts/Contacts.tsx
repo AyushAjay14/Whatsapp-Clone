@@ -1,6 +1,6 @@
 import "./contacts.css";
 import { ConnectionsUtils, SelectedUserUtils } from "@/context/";
-import ContactList from "./ContactItem";
+import ContactItem from "./ContactItem";
 
 function Contacts() {
   const { setSelectedUser } = SelectedUserUtils();
@@ -23,7 +23,9 @@ function Contacts() {
    */
   return (
     <div className="contact-list__container">
-      <ContactList handleClickOnUserContact={handleClickOnUserContact} />
+      {connections.map((connection) => (
+        <ContactItem key={connection.id} connection={connection} handleClickOnUserContact={handleClickOnUserContact} />
+      ))}
     </div>
   );
 }

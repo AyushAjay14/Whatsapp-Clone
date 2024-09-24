@@ -1,4 +1,5 @@
 .chat-app__container {
   display: flex;
   height: 100vh;
+  overflow-x: scroll;
 }

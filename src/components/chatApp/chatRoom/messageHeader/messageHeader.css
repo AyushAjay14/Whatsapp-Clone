@@ -19,7 +19,7 @@
   height: 100%;
   border-radius: 50%;
 }
-.user-name__container {
+.user-name {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -31,10 +31,12 @@
   color: #e9edef;
   text-align: left;
   text-overflow: ellipsis;
+  overflow: hidden;
   white-space: nowrap;
 }
 .seach-option__container {
   color: #e9edef;
+  display: flex;
   font-size: 20px;
 }
 .seach-option__container i {

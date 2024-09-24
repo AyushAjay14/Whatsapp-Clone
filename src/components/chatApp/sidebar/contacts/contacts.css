@@ -1,5 +1,6 @@
 .contact-list__container {
   overflow-y: auto;
+  overflow-x: hidden;
 }
 .contact__container {
   padding: 6px 20px;
@@ -32,6 +33,9 @@
   white-space: nowrap;
   margin-bottom: 4px;
   max-width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 .contact__container:hover .button {
   opacity: 1;
@@ -53,4 +57,19 @@
   position: absolute;
   top: 0;
   z-index: 100;
+}
+.tooltip {
+  position: absolute;
+  top: 50%;
+  left: 28%;
+  background-color: #ddd1b9;
+  padding: 5px;
+  color: black;
+  border-radius: 2px;
+  z-index: 1;
+  width: 25rem;
+  max-height: 10rem;
+  overflow-y: scroll;
+  word-break: break-all;
+  font-size: 0.66rem;
 }
