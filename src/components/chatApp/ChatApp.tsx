@@ -1,8 +1,9 @@
-import { useReducer, useState } from "react";
+import { lazy, Suspense, useReducer, useState } from "react";
 import "./chatApp.css";
 import SideBar from "./sidebar/SideBar";
 import UnselectedChat from "./unselectedChatSection/UnselectedChat";
-import ChatRoom from "./chatRoom/ChatRoom";
+const ChatRoom = lazy(() => import("./chatRoom/ChatRoom"));
+
 import { User } from "@/types/";
 import { CompactModeUtilContext, MessagesUtilContext, SelectedUserUtilsContext } from "@/context/";
 import { messageReducer } from "@/reducers/messageReducer";
@@ -41,7 +42,13 @@ function ChatApp() {
         <CompactModeUtilContext.Provider value={compactModeUtils}>
           <div className="chat-app__container">
             <SideBar />
-            {selectedUser ? <ChatRoom key={selectedUser.id} /> : <UnselectedChat />}
+            {selectedUser ? (
+              <Suspense fallback={<UnselectedChat />}>
+                <ChatRoom key={selectedUser.id} />{" "}
+              </Suspense>
+            ) : (
+              <UnselectedChat />
+            )}
           </div>
         </CompactModeUtilContext.Provider>
       </MessagesUtilContext.Provider>

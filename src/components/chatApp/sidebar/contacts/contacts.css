@@ -53,6 +53,17 @@
   line-clamp: 3;
   -webkit-box-orient: vertical;
 }
+.button {
+  align-self: flex-end;
+  background-color: #dc3546;
+  color: white;
+  padding: 2px 3px 4px 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.5s linear;
+  margin-right: 2px;
+}
 .delete-conversation__btn {
   position: absolute;
   top: 0;
