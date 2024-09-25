@@ -2,8 +2,9 @@ import { DarkModeIcon, NoNotificationIcon, MoreOptionsIcon, NewChatIcon, OpenSta
 
 import "./profile.css";
 import { CompactModeUtils } from "@/context";
+import { memo } from "react";
 
-function Profile() {
+const Profile = memo(function Profile() {
   const { isCompactMode, setIsCompactMode } = CompactModeUtils();
   return (
     // no need for this extra div
@@ -44,6 +45,6 @@ function Profile() {
       </div>
     </>
   );
-}
+});
 
 export default Profile;

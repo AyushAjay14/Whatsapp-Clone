@@ -1,6 +1,7 @@
+import { memo } from "react";
 import "./searchField.css";
 
-function SearchField() {
+const SearchField = memo(function SearchField() {
   return (
     <div className="searchFieldWrapper">
       <div className="searchIconWrapper">
@@ -9,6 +10,6 @@ function SearchField() {
       <input type="text" placeholder="Search or start a new chat" />
     </div>
   );
-}
+});
 
 export default SearchField;

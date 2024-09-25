@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 import "./createNewChat.css";
 import ConfirmationBox from "../../confirmationBox/ConfirmationBox";
 import { ConnectionsUtils } from "@/context";
 
-function CreateNewChat() {
+const CreateNewChat = memo(function CreateNewChat() {
   const [editText, setEditText] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { connectionDispatch } = ConnectionsUtils();
@@ -44,6 +44,6 @@ function CreateNewChat() {
       </ConfirmationBox>
     </>
   );
-}
+});
 
 export default CreateNewChat;

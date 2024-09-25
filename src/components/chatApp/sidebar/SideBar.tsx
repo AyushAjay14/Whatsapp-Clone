@@ -28,9 +28,9 @@ function SideBar() {
 
   return (
     <div className="sidebar__container">
+      <Profile />
+      <SearchField />
       <ConnectionsUtilsContext.Provider value={contextValue}>
-        <Profile />
-        <SearchField />
         <Contacts />
         <CreateNewChat />
       </ConnectionsUtilsContext.Provider>

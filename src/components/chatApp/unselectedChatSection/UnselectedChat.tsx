@@ -1,6 +1,7 @@
+import { memo } from "react";
 import "./unselectedChat.css";
 
-function UnselectedChat() {
+const UnselectedChat = memo(function UnselectedChat() {
   return (
     <div className="chat-section__container">
       <div className="chat-section__image__container">
@@ -16,6 +17,6 @@ function UnselectedChat() {
       </div>
     </div>
   );
-}
+});
 
 export default UnselectedChat;

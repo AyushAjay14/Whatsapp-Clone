@@ -1,6 +1,8 @@
+import { lazy, Suspense } from "react";
 import "./contacts.css";
 import { ConnectionsUtils, SelectedUserUtils } from "@/context/";
-import ContactItem from "./ContactItem";
+import Loading from "../../loading/Loading";
+const ContactItem = lazy(() => import("./ContactItem"));
 
 function Contacts() {
   const { setSelectedUser } = SelectedUserUtils();
@@ -24,7 +26,9 @@ function Contacts() {
   return (
     <div className="contact-list__container">
       {connections.map((connection) => (
-        <ContactItem key={connection.id} connection={connection} handleClickOnUserContact={handleClickOnUserContact} />
+        <Suspense key={connection.id} fallback={<Loading />}>
+          <ContactItem connection={connection} handleClickOnUserContact={handleClickOnUserContact} />
+        </Suspense>
       ))}
     </div>
   );
