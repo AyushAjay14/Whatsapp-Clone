@@ -2,7 +2,7 @@ import { MessageStateType } from "@/types/message";
 import { MessageAction } from "@/types/reducer";
 import { updateMessagesInLocalStorage } from "@/utils";
 
-export function messageReducer(state: MessageStateType, action: MessageAction) {
+export function messageReducer(state: MessageStateType, action: MessageAction): MessageStateType {
   switch (action.type) {
     case "SET_SELECTED_MESSAGE_TIMESTAMP":
       return { ...state, selectedMessageTimeStamp: action.payload };

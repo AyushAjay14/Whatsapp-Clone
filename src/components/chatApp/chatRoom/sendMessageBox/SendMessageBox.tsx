@@ -23,13 +23,14 @@ function SendMessageBox() {
           type="text"
           placeholder="Type a message"
           value={inputMessage}
+          role="message-input"
           className="send-message-box"
           /**
            * REVIEW_COMMENTS: there is a concept of debounce pls check that as well
            */
           onChange={(event) => setInputMessage(event.target.value)}
         />
-        <button className="send-button" onClick={handleSendMessage}>
+        <button aria-label="send-message" className="send-button" onClick={handleSendMessage}>
           <SendButtonIcon />
         </button>
       </div>

@@ -4,7 +4,9 @@ import "./confirmationBox.css";
 const ConfirmationBox = ({ children, isModalVisible }: { children: ReactNode; isModalVisible: boolean }) => {
   return (
     <div className="confirmation-box__overlay" style={{ display: isModalVisible ? "flex" : "none" }}>
-      <div className="confirmation-box">{children}</div>
+      <div role="confirmation-box" className="confirmation-box">
+        {children}
+      </div>
     </div>
   );
 };
@@ -18,7 +20,7 @@ const Body = ({ editText, setEditText }: { editText: string; setEditText: Dispat
   };
   return (
     <div className="confirmationbox-body">
-      <input onChange={handleInput} className="confirmation-box-input" contentEditable="true" placeholder="Type a message" value={editText}></input>
+      <input role="modal-input" onChange={handleInput} className="confirmation-box-input" contentEditable="true" placeholder="Type a message" value={editText}></input>
     </div>
   );
 };

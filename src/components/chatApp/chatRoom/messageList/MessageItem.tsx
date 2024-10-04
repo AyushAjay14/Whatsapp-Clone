@@ -44,17 +44,21 @@ function MessageItem({ message, index, selectedUser }: { message: Message; index
     <>
       <div key={message.timeStamp} ref={index === messages[selectedUser.id].length - 1 ? lastMessageRef : null} className="message__container">
         <div className="button-group">
-          <button className="button" id={message.timeStamp} onClick={() => handleOnDelete(message)}>
+          <button aria-label="delete-message" className="button" id={message.timeStamp} onClick={() => handleOnDelete(message)}>
             Delete
           </button>
-          <button className="button" id={message.timeStamp} onClick={handleEditMessage}>
+          <button aria-label="edit-message" className="button" id={message.timeStamp} onClick={handleEditMessage}>
             Edit
           </button>
         </div>
         <div className="message">
           <p>{message.text}</p>
           <span className="timestamp-gap" />
-          {!isCompactMode && <p className="timestamp">{message.timeStamp.slice(0, 5)}</p>}
+          {!isCompactMode && (
+            <p aria-label="timestamp" className="timestamp">
+              {message.timeStamp.slice(0, 5)}
+            </p>
+          )}
         </div>
         <ConfirmationBox isModalVisible={isModalVisible}>
           <ConfirmationBox.Header>

@@ -18,7 +18,7 @@ const Profile = memo(function Profile() {
           <OpenStatusIcon />
           <NewChatIcon />
           <MoreOptionsIcon />
-          <button className="mode__btn" onClick={() => setIsCompactMode(!isCompactMode)}>
+          <button aria-label="compact-mode" className="mode__btn" onClick={() => setIsCompactMode(!isCompactMode)}>
             {isCompactMode ? "Spacious Mode" : "Compact Mode"}
           </button>
         </div>
